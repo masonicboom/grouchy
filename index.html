@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/jquery-1.7.1.min.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <link rel='stylesheet' href='/css/bootstrap.css' />
+    <style>
+      #messages { height: 250px; }
+      #message { width: 100%; }
+    </style>
+  </head>
+  <body>
+
+    <div class='container'>
+      <div class='row'>
+        <div class='span12'>
+          <h1>Grouchy</h1>
+        </div>
+      </div>
+
+      <div class='row'>
+        <div id='messages' class='span12 well'></div>
+      </div>
+
+      <div class='row'>
+        <div class='span10'>
+          <input id='message'></input>
+        </div>
+        <div class='span2'>
+          <button id='send' class='btn'>Send</button>
+        </div>
+      </div>
+    </div>
+
+<script>
+  var socket = io.connect('http://localhost');
+  socket.on('message', function (data) {
+    console.log(data);
+    $('#messages').append('<div><b>' + data.who + '</b>: ' + data.msg + '</div>');
+  });
+
+  $('button#send').click(function() {
+    var data = { who:'me', msg:$('#message').val() };
+    console.log(data);
+    socket.emit('message', data);
+  });
+</script>
+
+  </body>
+</html
