@@ -3,10 +3,22 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/jquery-1.7.1.min.js"></script>
     <script src="/js/bootstrap.js"></script>
+    <script src="/js/moment.min.js"></script>
     <link rel='stylesheet' href='/css/bootstrap.css' />
     <style>
       #messages { height: 250px; }
       #message { width: 100%; }
+
+      .message .when {
+        color: #AAA;
+        margin-right: 1ex;
+      }
+      .message .who {
+        font-weight: bold;
+        margin-right: 2ex;
+      }
+      .message .msg {
+      }
     </style>
   </head>
   <body>
@@ -22,6 +34,8 @@
         <div id='messages' class='span12 well'></div>
       </div>
 
+      <!-- Nickname entry interface -->
+      <!-- Message entry interface -->
       <div class='row'>
         <div class='span10'>
           <input id='message'></input>
@@ -35,11 +49,16 @@
 <script>
   var socket = io.connect('http://localhost');
   socket.on('message', function (data) {
-    $('#messages').append('<div><b>' + data.who + '</b>: ' + data.msg + '</div>');
+    $('#messages').append('<div class="message">'
+      + '<span class="when">' + data.when + '</span>'
+      + '<span class="who">' + data.who + ':</span>'
+      + '<span class="msg">' + data.msg + '</span>'
+    + '</div>');
   });
 
   $('button#send').click(function() {
-    var data = { who:'me', msg:$('#message').val() };
+    var when = moment().format('YYYY-MM-DD HH:MM z');
+    var data = { when:when, who:'me', msg:$('#message').val() };
     socket.emit('message', data);
   });
 </script>
