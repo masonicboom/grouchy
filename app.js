@@ -12,7 +12,7 @@ app.get('/', function (req, res) {
 
 io.sockets.on('connection', function (socket) {
 
-  socket.emit('message', { who:'???', msg:'Howdy yall' });
+  socket.emit('message', { who:'Grouchy', msg:'Someone joined the room.' });
 
   socket.on('message', function (data) {
     console.log(data);

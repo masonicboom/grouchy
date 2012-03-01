@@ -35,13 +35,11 @@
 <script>
   var socket = io.connect('http://localhost');
   socket.on('message', function (data) {
-    console.log(data);
     $('#messages').append('<div><b>' + data.who + '</b>: ' + data.msg + '</div>');
   });
 
   $('button#send').click(function() {
     var data = { who:'me', msg:$('#message').val() };
-    console.log(data);
     socket.emit('message', data);
   });
 </script>
