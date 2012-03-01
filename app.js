@@ -13,13 +13,14 @@ app.get('/', function (req, res) {
 
 io.sockets.on('connection', function (socket) {
 
+  // Notify that someone joined.
   var when = moment().format('YYYY-MM-DD HH:MM z');
-  socket.emit('message', { when: when, who:'Grouchy', msg:'Someone joined the room.' });
+  io.sockets.emit('message', { when: when, who:'Grouchy', msg:'Someone joined the room.' });
 
+  // Broadcast incoming message.
   socket.on('message', function (data) {
     console.log(data);
     io.sockets.emit('message', data);
   });
 
 });
-
